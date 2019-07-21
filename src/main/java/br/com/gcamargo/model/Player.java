@@ -2,10 +2,13 @@ package br.com.gcamargo.model;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
+import javax.persistence.Entity;
 import java.time.Year;
 import java.util.Currency;
+import java.util.Locale;
 import java.util.Objects;
 
+@Entity
 public class Player extends PanacheEntity {
     static final Year SOCCER_BORN = Year.of(1863);
 
@@ -13,15 +16,13 @@ public class Player extends PanacheEntity {
     private Year start;
     private Year end;
     private double salary;
-    private Currency currency;
     private int goal = 0;
 
-    public Player(String name, Year start, Year end, double salary, Currency currency) {
+    public Player(String name, Year start, Year end, double salary) {
         this.name = name;
         this.start = start;
         this.end = end;
         this.salary = salary;
-        this.currency = currency;
         this.goal = goal;
     }
     @Deprecated
@@ -44,10 +45,6 @@ public class Player extends PanacheEntity {
         return salary;
     }
 
-    public Currency getCurrency() {
-        return currency;
-    }
-
     public int getGoal() {
         return goal;
     }
@@ -68,7 +65,6 @@ public class Player extends PanacheEntity {
         private Year start;
         private Year end;
         private double salary;
-        private Currency currency;
 
         public PlayerBuilder withName(String name) {
             this.name = Objects.requireNonNull(name, "name is required");
@@ -114,9 +110,8 @@ public class Player extends PanacheEntity {
             Objects.requireNonNull(name, "name is required");
             Objects.requireNonNull(start, "start is required");
             Objects.requireNonNull(salary, "salary is required");
-            Objects.requireNonNull(currency, "currency is required");
 
-            return new Player(name, start, end, salary, currency);
+            return new Player(name, start, end, salary);
         }
 
 

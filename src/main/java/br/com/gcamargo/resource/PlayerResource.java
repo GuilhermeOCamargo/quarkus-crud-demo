@@ -8,22 +8,23 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.Arrays;
+import java.net.URI;
 
 @Path("/player")
-@Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
 public class PlayerResource {
     @Inject
     private PlayerService playerService;
 
     @POST
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response insert(PlayerDto playerDto){
-        return Response.ok(playerDto).build();
+        Player player = playerService.addPlayer(playerDto);
+        return Response.created(URI.create("/player/"+player.id)).build();
     }
 
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
     public Response findAll(){
-        return Response.ok(Arrays.asList(new Player())).build();
+        return Response.ok(playerService.findAll()).build();
     }
 }
